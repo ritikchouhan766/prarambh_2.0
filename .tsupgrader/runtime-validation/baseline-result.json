@@ -1,0 +1,50 @@
+{
+  "planHash": "6451af5a71971f858c1dac91e02ccab58ecc3a6516b3071e5c502f06c13806e6",
+  "phase": "baseline",
+  "recordedAtUtc": "2026-08-26T11:59:26.3539600Z",
+  "retryCount": 0,
+  "resetBaseline": false,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 9302,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "tsc-no-emit",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "",
+        "durationMs": 14617
+      },
+      {
+        "name": "next-production-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 1,
+        "outputSample": "\r\n\u003E prarambham-rehabilitation@1.0.0 build\r\n\u003E next build\r\n\r\n  \u25B2 Next.js 14.2.5\r\n\r\n   Creating an optimized production build ...\r\n \u26A0 For production Image Optimization with Next.js, the optional \u0027sharp\u0027 package is strongly recommended. Run \u0027npm i sharp\u0027, and Next.js will use it automatically for Image Optimization.\r\nRead more: https://nextjs.org/docs/messages/sharp-missing-in-production\r\n \u26A0 For production Image Optimization with Next.js, the optional \u0027sharp\u0027 package is strongly recommended. Run \u0027npm i sharp\u0027, and Next.js will use it automatically for Image Optimization.\r\nRead more: https://nextjs.org/docs/messages/sharp-missing-in-production\r\n \u2713 Compiled successfully\r\n   Linting and checking validity of types ...\r\n   Collecting page data ...\r\nPageNotFoundError: Cannot find module for page: /contact\r\n    at getPagePath (D:\\prarambh\\node_modules\\next\\dist\\server\\require.js:94:15)\r\n    at requirePage (D:\\prarambh\\node_modules\\next\\dist\\server\\require.js:99:22)\r\n    at D:\\prarambh\\node_modules\\next\\dist\\server\\load-components.js:98:84\r\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\r\n    at async loadComponentsImpl (D:\\prarambh\\node_modules\\next\\dist\\server\\load-components.js:98:26)\r\n    at async D:\\prarambh\\node_modules\\next\\dist\\build\\utils.js:1116:32\r\n    at async Span.traceAsyncFn (D:\\prarambh\\node_modules\\next\\dist\\trace\\trace.js:154:20) {\r\n  code: \u0027ENOENT\u0027\r\n}\r\nPageNotFoundError: Cannot find module for page: /services\r\n    at getPagePath (D:\\prarambh\\node_modules\\next\\dist\\server\\require.js:94:15)\r\n    at requirePage (D:\\prarambh\\node_modules\\next\\dist\\server\\require.js:99:22)\r\n    at D:\\prarambh\\node_modules\\next\\dist\\server\\load-components.js:98:84\r\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\r\n    at async loadComponentsImpl (D:\\prarambh\\node_modules\\next\\dist\\server\\load-components.js:98:26)\r\n    at async D:\\prarambh\\node_modules\\next\\dist\\build\\utils.js:1116:32\r\n    at async Span.traceAsyncFn (D:\\prarambh\\node_modules\\next\\dist\\trace\\trace.js:154:20) {\r\n  code: \u0027ENOENT\u0027\r\n}\r\n\r\n\u003E Build error occurred\r\nError: Failed to collect page data for /contact\r\n    at D:\\prarambh\\node_modules\\next\\dist\\build\\utils.js:1268:15\r\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {\r\n  type: \u0027Error\u0027\r\n}\r\n",
+        "durationMs": 110771
+      },
+      {
+        "name": "home-page-200",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 500\n\u003C!DOCTYPE html\u003E\u003Chtml\u003E\u003Chead\u003E\u003Cstyle data-next-hide-fouc=\u0022true\u0022\u003Ebody{display:none}\u003C/style\u003E\u003Cnoscript data-next-hide-fouc=\u0022true\u0022\u003E\u003Cstyle\u003Ebody{display:block}\u003C/style\u003E\u003C/noscript\u003E\u003Cmeta charSet=\u0022utf-8\u0022/\u003E\u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width\u0022/\u003E\u003Cmeta name=\u0022next-head-count\u0022 content=\u00222\u0022/\u003E\u003Cnoscript data-n-css=\u0022\u0022\u003E\u003C/noscript\u003E\u003Cscript defer=\u0022\u0022 nomodule=\u0022\u0022 src=\u0022/_next/static/chunks/polyfills.js\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/_next/static/chunks/webpack.js\u0022 defer=\u0022\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/_next/static/chunks/main.js\u0022 defer=\u0022\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/_next/static/chunks/pages/_app.js\u0022 defer=\u0022\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/_next/static/chunks/pages/_error.js\u0022 defer=\u0022\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/_next/static/development/_buildManifest.js\u0022 defer=\u0022\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/_next/static/development/_ssgManifest.js\u0022 defer=\u0022\u0022\u003E\u003C/script\u003E\u003Cnoscript id=\u0022__next_css__DO_NOT_USE__\u0022\u003E\u003C/noscript\u003E\u003C/head\u003E\u003Cbody\u003E\u003Cdiv id=\u0022__next\u0022\u003E\u003C/div\u003E\u003Cscript src=\u0022/_next/static/chunks/react-refresh.js\u0022\u003E\u003C/script\u003E\u003Cscript id=\u0022__NEXT_DATA__\u0022 type=\u0022application/json\u0022\u003E{\u0022props\u0022:{\u0022pageProps\u0022:{\u0022statusCode\u0022:500}},\u0022page\u0022:\u0022/_error\u0022,\u0022query\u0022:{},\u0022buildId\u0022:\u0022development\u0022,\u0022isFallback\u0022:false,\u0022err\u0022:{\u0022name\u0022:\u0022Error\u0022,\u0022source\u0022:\u0022server\u0022,\u0022message\u0022:\u0022Cannot find module \u0027./249.js\u0027\\nRequire stack:\\n- D:\\\\prarambh\\\\.next\\\\server\\\\webpack-runtime.js\\n- D:\\\\prarambh\\\\.next\\\\server\\\\pages\\\\_document.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\require.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\load-components.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\build\\\\utils.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\dev\\\\hot-middleware.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\dev\\\\hot-reloader-webpack.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\lib\\\\router-utils\\\\setup-dev-bundler.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\lib\\\\router-server.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\lib\\\\start-server.js\u0022,\u0022stack\u0022:\u0022Error: Cannot find module \u0027./249.js\u0027\\nRequire stack:\\n- D:\\\\prarambh\\\\.next\\\\server\\\\webpack-runtime.js\\n- D:\\\\prarambh\\\\.next\\\\server\\\\pages\\\\_document.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\require.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\load-components.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\build\\\\utils.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\dev\\\\hot-middleware.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\dev\\\\hot-reloader-webpack.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\lib\\\\router-utils\\\\setup-dev-bundler.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\lib\\\\router-server.js\\n- D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\lib\\\\start-server.js\\n    at Module.\\u003canonymous\\u003e (node:internal/modules/cjs/loader:1421:15)\\n    at D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\require-hook.js:55:36\\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)\\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)\\n    at Module._load (node:internal/modules/cjs/loader:1227:37)\\n    at TracingChannel.traceSync (node:diagnostics_channel:328:14)\\n    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)\\n    at Module.\\u003canonymous\\u003e (node:internal/modules/cjs/loader:1504:12)\\n    at mod.require (D:\\\\prarambh\\\\node_modules\\\\next\\\\dist\\\\server\\\\require-hook.js:65:28)\\n    at require (node:internal/modules/helpers:152:16)\\n    at __webpack_require__.f.require (D:\\\\prarambh\\\\.next\\\\server\\\\webpack-runtime.js:198:28)\\n    at D:\\\\prarambh\\\\.next\\\\server\\\\webpack-runtime.js:111:40\\n    at Array.reduce (\\u003canonymous\\u003e)\\n    at __webpack_require__.e (D:\\\\prarambh\\\\.next\\\\server\\\\webpack-runtime.js:110:67)\\n    at Array.map (\\u003canonymous\\u003e)\\n    at __webpack_require__.X (D:\\\\prarambh\\\\.next\\\\server\\\\webpack-runtime.js:162:22)\\n    at D:\\\\prarambh\\\\.next\\\\server\\\\app\\\\page.js:38:10212\\n    at Object.\\u003canonymous\\u003e (D:\\\\prarambh\\\\.next\\\\server\\\\app\\\\page.js:38:10257)\\n    at Module._compile (node:internal/modules/cjs/loader:1761:14)\\n    at Object..js (node:internal/modules/cjs/loader:1893:10)\\n    at Module.\n\u2026[truncated]",
+        "durationMs": 113
+      }
+    ]
+  }
+}

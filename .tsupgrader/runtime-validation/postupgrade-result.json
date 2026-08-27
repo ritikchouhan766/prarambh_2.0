@@ -1,0 +1,50 @@
+{
+  "planHash": "6451af5a71971f858c1dac91e02ccab58ecc3a6516b3071e5c502f06c13806e6",
+  "phase": "postupgrade",
+  "recordedAtUtc": "2026-08-26T12:17:03.4322075Z",
+  "retryCount": 1,
+  "resetBaseline": false,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 6461,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "tsc-no-emit",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "",
+        "durationMs": 5926
+      },
+      {
+        "name": "next-production-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "\r\n\u003E prarambham-rehabilitation@1.0.0 build\r\n\u003E next build\r\n\r\n\u25B2 Next.js 16.3.3 (Turbopack)\r\n\u2713 Running next.config.mjs took 47ms\r\n\r\n  Creating an optimized production build ...\r\n(node:21812) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///D:/prarambh/tailwind.config.ts?id=1787746601936 is not specified and it doesn\u0027t parse as CommonJS.\r\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\r\nTo eliminate this warning, add \u0022type\u0022: \u0022module\u0022 to D:\\prarambh\\package.json.\r\n(Use \u0060node --trace-warnings ...\u0060 to show where the warning was created)\r\n\u2713 Compiled successfully in 17.7s\r\n  Running TypeScript ...\r\n  Finished TypeScript in 2.3s ...\r\n  Collecting page data using 7 workers ...\r\n  Generating static pages using 7 workers (0/7) ...\r\n  Generating static pages using 7 workers (1/7) \r\n  Generating static pages using 7 workers (3/7) \r\n  Generating static pages using 7 workers (5/7) \r\n\u2713 Generating static pages using 7 workers (7/7) in 928ms\r\n  Finalizing page optimization ...\r\n\r\nRoute (app)\r\n\u250C \u25CB /\r\n\u251C \u25CB /_not-found\r\n\u251C \u25CB /conditions\r\n\u251C \u25CB /contact\r\n\u251C \u25CB /services\r\n\u2514 \u25CB /therapist\r\n\r\n\r\n\u25CB  (Static)  prerendered as static content\r\n\r\n",
+        "durationMs": 33318
+      },
+      {
+        "name": "home-page-200",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 500\nInternal Server Error",
+        "durationMs": 72
+      }
+    ]
+  }
+}
