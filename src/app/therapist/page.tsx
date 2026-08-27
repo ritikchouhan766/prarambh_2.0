@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { THERAPISTS } from "@/lib/constants";
+import therapistPhoto from "@/assets/therapist/dr_lakshita.jpeg";
 
 export const metadata: Metadata = {
   title: "Our Therapists",
@@ -42,9 +44,15 @@ export default function TherapistPage() {
             >
               {/* Profile Card */}
               <div className="bg-teal-pale rounded-[20px] p-10 text-center lg:sticky lg:top-[90px]">
-                {/* Avatar — replace emoji with next/image once photo added to /public/images/ */}
-                <div className="w-[120px] h-[120px] rounded-full mx-auto mb-5 bg-gradient-to-br from-teal to-blue flex items-center justify-center text-[48px] text-white border-[5px] border-white shadow-lg">
-                  👩‍⚕️
+                <div className="mx-auto mb-5 h-[250px] w-[250px] overflow-hidden rounded-full border-[5px] border-white shadow-lg">
+                  <Image
+                    src={therapistPhoto}
+                    alt={therapist.name}
+                    width={120}
+                    height={120}
+                    className="h-full w-full object-cover object-center"
+                    priority={idx === 0}
+                  />
                 </div>
 
                 <h3 className="font-serif text-[24px] text-slate mb-1">
@@ -76,29 +84,6 @@ export default function TherapistPage() {
                       </div>
                     </div>
                   ))}
-                </div>
-
-                <div
-                  className="p-4 rounded-card text-left"
-                  style={{ background: "rgba(14,124,123,.08)" }}
-                >
-                  <p className="text-[12px] font-bold uppercase tracking-[0.07em] text-muted mb-2">
-                    Contact Directly
-                  </p>
-                  <a
-                    href="tel:+916377216003"
-                    className="flex items-center gap-2 text-[14px] text-teal font-semibold mb-2"
-                  >
-                    📞 +91 6377216003
-                  </a>
-                  <a
-                    href="https://wa.me/916377216003"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-[14px] text-[#25D366] font-semibold"
-                  >
-                    💬 WhatsApp
-                  </a>
                 </div>
               </div>
 

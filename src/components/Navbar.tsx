@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import logo from "@/assets/hero/logo.png";
+import logo from "@/assets/branding/logo.png";
 import { NAV_LINKS } from "@/lib/constants";
 import { SERVICE_PAGES } from "@/lib/site-content";
 

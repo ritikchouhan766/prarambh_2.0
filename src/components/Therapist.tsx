@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useState,
   useEffect,
@@ -9,17 +10,11 @@ import {
 } from "react";
 import Link from "next/link";
 import { THERAPISTS, type Therapist } from "@/lib/constants";
+import therapistPhoto from "@/assets/therapist/dr_lakshita.jpeg";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const AUTO_ROTATE_MS  = 6000;
-const ANIM_DURATION   = 480; // ms — must match CSS below
-
-// ─── AVATAR MAP ───────────────────────────────────────────────────────────────
-const AVATARS: Record<string, string> = {
-  "Lakshita Chouhan": "👩‍⚕️",
-  "Dr. Priya Sharma":  "👩‍⚕️",
-  "Ms. Anjali Verma":  "👩‍⚕️",
-};
+const AUTO_ROTATE_MS = 6000;
+const ANIM_DURATION = 480; // ms — must match CSS below
 
 // ─── ANIMATION PHASE ─────────────────────────────────────────────────────────
 type Phase = "idle" | "exit" | "enter";
@@ -34,16 +29,31 @@ function ProfileCard({
 }) {
   return (
     <div
-      className="rounded-[20px] p-10 text-center h-full"
+      className="therapist-profile-card rounded-[10px] p-5 text-center h-full"
       style={{ background: "#E8F6F6" }}
     >
-      {/* Avatar */}
       <div
-        className="w-[120px] h-[120px] rounded-full mx-auto mb-5 flex items-center
-                   justify-center text-[48px] border-[5px] border-white shadow-lg"
-        style={{ background: "linear-gradient(135deg,#0E7C7B,#1A5FA8)" }}
+        className="therapist-photo relative w-[250px] h-[250px] rounded-full mx-auto mb-6 overflow-hidden
+                   border-[5px] border-white shadow-lg"
       >
-        {AVATARS[therapist.name] ?? "👩‍⚕️"}
+        {therapist.name === "Lakshita Chouhan" ? (
+          <Image
+            src={therapistPhoto}
+            alt={`${therapist.name}, ${therapist.designation}`}
+            fill
+            sizes="250px"
+            className="object-cover object-center"
+            priority
+          />
+        ) : (
+          <div
+            className="flex h-full w-full items-center justify-center text-[48px]"
+            style={{ background: "linear-gradient(135deg,#0E7C7B,#1A5FA8)" }}
+            aria-hidden="true"
+          >
+            👩‍⚕️
+          </div>
+        )}
       </div>
 
       <h3
@@ -64,16 +74,18 @@ function ProfileCard({
           <span
             key={q}
             className="bg-white border rounded-md px-3 py-1.5 font-semibold"
-            style={{ fontSize: "12px", color: "#2C3E50", borderColor: "#E2E8F0" }}
+            style={{
+              fontSize: "12px",
+              color: "#2C3E50",
+              borderColor: "#E2E8F0",
+            }}
           >
             {q}
           </span>
         ))}
       </div>
 
-      <div
-        className="bg-white rounded-[10px] py-3.5 px-4 flex justify-around mb-5"
-      >
+      <div className="bg-white rounded-[10px] py-3.5 px-4 flex justify-around mb-5">
         {therapist.stats.map((s) => (
           <div key={s.key} className="text-center">
             <div
@@ -82,7 +94,9 @@ function ProfileCard({
             >
               {s.val}
             </div>
-            <div style={{ fontSize: "11px", color: "#718096", marginTop: "2px" }}>
+            <div
+              style={{ fontSize: "11px", color: "#718096", marginTop: "2px" }}
+            >
               {s.key}
             </div>
           </div>
@@ -105,7 +119,11 @@ function ProfileCard({
         >
           <p
             className="font-bold uppercase mb-2"
-            style={{ fontSize: "12px", letterSpacing: ".07em", color: "#718096" }}
+            style={{
+              fontSize: "12px",
+              letterSpacing: ".07em",
+              color: "#718096",
+            }}
           >
             Contact Directly
           </p>
@@ -245,7 +263,7 @@ function SlideWrapper({
   direction: "next" | "prev";
 }) {
   const therapistCurrent = THERAPISTS[current];
-  const therapistPrev    = THERAPISTS[prev];
+  const therapistPrev = THERAPISTS[prev];
 
   // Outgoing: slide out to the left (next) or right (prev)
   const exitStyle: CSSProperties =
@@ -267,18 +285,20 @@ function SlideWrapper({
     return (
       <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-[60px] items-start">
         <ProfileCard therapist={therapistCurrent} preview={true} />
-        <InfoPanel   therapist={therapistCurrent} preview={true} />
+        <InfoPanel therapist={therapistCurrent} preview={true} />
       </div>
     );
   }
 
   return (
-    <div style={{ position: "relative", overflow: "hidden", minHeight: "520px" }}>
+    <div
+      style={{ position: "relative", overflow: "hidden", minHeight: "520px" }}
+    >
       {/* Outgoing slide */}
       <div style={{ ...exitStyle }}>
         <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-[60px] items-start">
-          <ProfileCard therapist={therapistPrev}    preview={true} />
-          <InfoPanel   therapist={therapistPrev}    preview={true} />
+          <ProfileCard therapist={therapistPrev} preview={true} />
+          <InfoPanel therapist={therapistPrev} preview={true} />
         </div>
       </div>
 
@@ -292,7 +312,7 @@ function SlideWrapper({
       >
         <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-[60px] items-start">
           <ProfileCard therapist={therapistCurrent} preview={true} />
-          <InfoPanel   therapist={therapistCurrent} preview={true} />
+          <InfoPanel therapist={therapistCurrent} preview={true} />
         </div>
       </div>
     </div>
@@ -303,11 +323,11 @@ function SlideWrapper({
 export default function TherapistSection() {
   const total = THERAPISTS.length;
 
-  const [current,     setCurrent]     = useState(0);
-  const [prev,        setPrev]        = useState(0);
-  const [phase,       setPhase]       = useState<Phase>("idle");
-  const [direction,   setDirection]   = useState<"next" | "prev">("next");
-  const [isPaused,    setIsPaused]    = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [prev, setPrev] = useState(0);
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [direction, setDirection] = useState<"next" | "prev">("next");
+  const [isPaused, setIsPaused] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -331,24 +351,26 @@ export default function TherapistSection() {
         setPhase("idle");
       }, ANIM_DURATION * 1.05);
     },
-    [phase, current]
+    [phase, current],
   );
 
   const goNext = useCallback(
     () => goTo((current + 1) % total, "next"),
-    [current, total, goTo]
+    [current, total, goTo],
   );
 
   const goPrev = useCallback(
     () => goTo((current - 1 + total) % total, "prev"),
-    [current, total, goTo]
+    [current, total, goTo],
   );
 
   // Auto-rotate
   useEffect(() => {
     if (isPaused || total <= 1) return;
     timerRef.current = setTimeout(goNext, AUTO_ROTATE_MS);
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [current, isPaused, total, goNext]);
 
   const isAnimating = phase !== "idle";
@@ -356,7 +378,6 @@ export default function TherapistSection() {
   return (
     <section className="section-pad overflow-hidden">
       <div className="site-container">
-
         {/* ── Header ──────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
           <div>
@@ -395,7 +416,10 @@ export default function TherapistSection() {
 
               {/* Prev button */}
               <button
-                onClick={() => { setIsPaused(true); goPrev(); }}
+                onClick={() => {
+                  setIsPaused(true);
+                  goPrev();
+                }}
                 disabled={isAnimating}
                 aria-label="Previous therapist"
                 className="w-10 h-10 rounded-full border-2 flex items-center justify-center
@@ -424,7 +448,10 @@ export default function TherapistSection() {
 
               {/* Next button */}
               <button
-                onClick={() => { setIsPaused(true); goNext(); }}
+                onClick={() => {
+                  setIsPaused(true);
+                  goNext();
+                }}
                 disabled={isAnimating}
                 aria-label="Next therapist"
                 className="w-10 h-10 rounded-full border-2 flex items-center justify-center
@@ -467,9 +494,9 @@ export default function TherapistSection() {
                 style={{
                   fontSize: "13px",
                   background: i === current ? "#0E7C7B" : "#fff",
-                  color:      i === current ? "#fff"    : "#718096",
+                  color: i === current ? "#fff" : "#718096",
                   borderColor: i === current ? "#0E7C7B" : "#E2E8F0",
-                  transform:  i === current ? "scale(1.04)" : "scale(1)",
+                  transform: i === current ? "scale(1.04)" : "scale(1)",
                 }}
               >
                 {t.name.replace("Dr. ", "").replace("Ms. ", "")}
@@ -496,13 +523,20 @@ export default function TherapistSection() {
           <div className="flex items-center justify-center gap-4 mt-10">
             {/* Mobile prev */}
             <button
-              onClick={() => { setIsPaused(true); goPrev(); }}
+              onClick={() => {
+                setIsPaused(true);
+                goPrev();
+              }}
               disabled={isAnimating}
               aria-label="Previous"
               className="sm:hidden w-9 h-9 rounded-full border-2 flex items-center
                          justify-center text-sm transition-all duration-200
                          disabled:opacity-40 select-none"
-              style={{ borderColor: "#E2E8F0", background: "#fff", color: "#2C3E50" }}
+              style={{
+                borderColor: "#E2E8F0",
+                background: "#fff",
+                color: "#2C3E50",
+              }}
             >
               ←
             </button>
@@ -519,8 +553,8 @@ export default function TherapistSection() {
                   aria-label={`Go to ${t.name}`}
                   className="rounded-full transition-all duration-300"
                   style={{
-                    width:      i === current ? "28px" : "10px",
-                    height:     "10px",
+                    width: i === current ? "28px" : "10px",
+                    height: "10px",
                     background: i === current ? "#0E7C7B" : "#E2E8F0",
                   }}
                 />
@@ -529,13 +563,20 @@ export default function TherapistSection() {
 
             {/* Mobile next */}
             <button
-              onClick={() => { setIsPaused(true); goNext(); }}
+              onClick={() => {
+                setIsPaused(true);
+                goNext();
+              }}
               disabled={isAnimating}
               aria-label="Next"
               className="sm:hidden w-9 h-9 rounded-full border-2 flex items-center
                          justify-center text-sm transition-all duration-200
                          disabled:opacity-40 select-none"
-              style={{ borderColor: "#0E7C7B", background: "#0E7C7B", color: "#fff" }}
+              style={{
+                borderColor: "#0E7C7B",
+                background: "#0E7C7B",
+                color: "#fff",
+              }}
             >
               →
             </button>
@@ -566,8 +607,12 @@ export default function TherapistSection() {
               onClick={() => setIsPaused(false)}
               className="flex items-center gap-1.5 transition-colors"
               style={{ fontSize: "12px", color: "#718096" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "#0E7C7B"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "#718096"; }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#0E7C7B";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#718096";
+              }}
             >
               <span>▶</span> Resume auto-rotate
             </button>
@@ -580,12 +625,15 @@ export default function TherapistSection() {
             href="/therapist"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2
                        font-semibold transition-all duration-200 hover:bg-teal-pale"
-            style={{ fontSize: "14px", borderColor: "#0E7C7B", color: "#0E7C7B" }}
+            style={{
+              fontSize: "14px",
+              borderColor: "#0E7C7B",
+              color: "#0E7C7B",
+            }}
           >
             View Full Team Profiles →
           </Link>
         </div>
-
       </div>
 
       {/* ── Keyframes ─────────────────────────────────────────── */}

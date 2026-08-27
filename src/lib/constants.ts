@@ -663,8 +663,10 @@ export const NAV_LINKS = [
   { label: "Home",       href: "/" },
   { label: "Services",   href: "/services" },
   { label: "Conditions", href: "/conditions" },
+  { label: "Therapist",  href: "/therapist" },
   { label: "Gallery",    href: "/gallery" },
   { label: "Our founder", href: "/founder" },
+  { label: "Careers",    href: "/careers" },
   { label: "Contact",    href: "/contact" },
 ] as const;
 
@@ -992,55 +994,59 @@ export interface Therapist {
 }
 
 export const THERAPISTS: Therapist[] = [
-  {
-    name: "Lakshita Chouhan",
-    designation: "Pediatric Physiotherapist & Founder",
-    qualifications: ["MPT Physiotherapy", "BPT", "Pediatric Specialist"],
-    experience: "3+ Years",
-    avatar: "/images/therapist-lakshita.jpg",
-    specializations: [
-      "Pediatric Physiotherapy",
-      "Neurodevelopmental Therapy (NDT)",
-      "Sensory Integration",
-      "Gait Training & Analysis",
-      "Early Intervention",
-      "Parent Training",
-      "Cerebral Palsy Rehabilitation",
-      "Post-Surgical Rehab",
-    ],
-    stats: [
-      { val: "3+",   key: "Years Exp." },
-      { val: "6",    key: "Therapies" },
-      { val: "100+", key: "Children" },
-    ],
-    bio: [
-      "Lakshita Chouhan is a Master of Physiotherapy (MPT) graduate with a specialization in Pediatric Physiotherapy. She founded Parambh Rehab Center with a clear mission — to give every child in Jodhpur access to expert, compassionate rehabilitation close to home.",
-      "Her clinical approach combines evidence-based physiotherapy techniques with a deep understanding of child development at every stage. She believes that the best therapy happens when the whole family is educated and actively involved — which is why parent training is built into every treatment plan.",
-      "Lakshita regularly updates her clinical knowledge through workshops and continuing education in pediatric rehabilitation, ensuring every child benefits from the most current and effective approaches available.",
-    ],
-    timeline: [
-      {
-        emoji: "🎓",
-        title: "Bachelor of Physiotherapy (BPT)",
-        description: "Foundational qualification in physiotherapy — anatomy, biomechanics, and clinical assessment",
-      },
-      {
-        emoji: "🏆",
-        title: "Master of Physiotherapy (MPT) — Pediatrics",
-        description: "Specialized postgraduate training focused on pediatric rehabilitation and neurodevelopment",
-      },
-      {
-        emoji: "🏥",
-        title: "Clinical Experience — 3+ Years",
-        description: "Hands-on pediatric physiotherapy in clinical settings, treating children with diverse conditions",
-      },
-      {
-        emoji: "🌟",
-        title: "Founded Parambh Rehab Center, Jodhpur",
-        description: "Established the centre to bring specialized pediatric rehabilitation to Air Force Area, Jodhpur",
-      },
-    ],
-  },
+{
+  name: "Lakshita Chouhan",
+  designation: "Pediatric Physiotherapist & Founder",
+  qualifications: [
+    "MPT Physiotherapy", 
+    "BPT", 
+    "Pediatric Specialist"
+  ],
+  experience: "3+ Years",
+  avatar: "assets/hero/dr_lakshita.jpg",
+  specializations: [
+    "Pediatric Physiotherapy",
+    "Neurodevelopmental Therapy (NDT)",
+    "Sensory Integration",
+    "Gait Training & Analysis",
+    "Early Intervention",
+    "Parent Training",
+    "Cerebral Palsy Rehabilitation",
+    "Post-Surgical Rehab"
+  ],
+  stats: [
+    { val: "3+", key: "Years Exp." },
+    { val: "8", key: "Specialties" }, 
+    { val: "61+", key: "Children" }   
+  ],
+  bio: [
+    "Lakshita Chouhan is a Master of Physiotherapy (MPT) graduate specializing in Pediatric Physiotherapy. She founded Prarambh Rehab Center to give families in Jodhpur access to expert, compassionate care close to home.",
+    "She blends evidence-based physical therapy with a deep understanding of child development to help kids reach their unique milestones.",
+    "Because therapy works best when families are involved, she builds practical parent training into every single treatment plan."
+  ],
+  timeline: [
+    {
+      emoji: "🎓",
+      title: "Bachelor of Physiotherapy (BPT)",
+      description: "Foundational qualification in physiotherapy — anatomy, biomechanics, and clinical assessment."
+    },
+    {
+      emoji: "🏆",
+      title: "Master of Physiotherapy (MPT) — Pediatrics",
+      description: "Specialized postgraduate training focused on pediatric rehabilitation and neurodevelopment."
+    },
+    {
+      emoji: "🏥",
+      title: "Clinical Experience — 3+ Years",
+      description: "Hands-on pediatric physiotherapy in clinical settings, treating children with diverse conditions."
+    },
+    {
+      emoji: "🌟",
+      title: "Founded Prarambh Rehab Center, Jodhpur",
+      description: "Established the centre to bring specialized pediatric rehabilitation to Jodhpur."
+    }
+  ]
+},
   {
     name: "Dr. Priya Sharma",
     designation: "Speech-Language Pathologist",

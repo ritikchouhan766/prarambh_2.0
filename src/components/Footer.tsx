@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/assets/hero/logo_footer.png";
+import logo from "@/assets/branding/logo_footer.png";
 import { SITE, NAV_LINKS, HOURS } from "@/lib/constants";
 
 const socialLinks = [
