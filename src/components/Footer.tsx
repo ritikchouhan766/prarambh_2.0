@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import logo from "@/assets/hero/logo_footer.png";
 import { SITE, NAV_LINKS, HOURS } from "@/lib/constants";
 
 const socialLinks = [
@@ -52,8 +54,20 @@ export default function Footer() {
       <div className="site-container">
         <div className="footer-main">
           <div className="footer-intro">
-            <Link href="/" prefetch={true} className="footer-brand">
-              <span aria-hidden="true">✦</span> {SITE.shortName}
+            <Link
+              href="/"
+              prefetch={true}
+              className="footer-brand-wrap"
+              aria-label="Parambh home"
+            >
+              <Image
+                src={logo}
+                alt="Parambh logo"
+                width={220}
+                height={90}
+                className="footer-brand-logo"
+                priority
+              />
             </Link>
             <p className="footer-subtitle">
               Child Rehabilitation Centre · Jodhpur

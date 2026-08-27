@@ -1,10 +1,23 @@
+import Image from "next/image";
 import { SITE } from "@/lib/constants";
 import { FORMS } from "@/lib/constants";
 import ContactForms from "@/app/contact/ContactForms";
+import therapyBg from "@/assets/hero/creative-activity-hero.png";
 
 export default function CTA() {
   return (
-    <section className="cta-light py-20 text-center relative overflow-hidden">
+    <section className="cta-light py-20 text-center relative overflow-hidden cta-section-with-bg">
+      <div className="cta-background" aria-hidden="true">
+        <Image
+          src={therapyBg}
+          alt=""
+          fill
+          sizes="100vw"
+          className="cta-bg-image"
+        />
+        <div className="cta-bg-overlay" />
+      </div>
+
       {/* Radial overlays */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -14,7 +27,7 @@ export default function CTA() {
         }}
       />
 
-      <div className="site-container relative">
+      <div className="site-container relative z-10">
         <span className="inline-block text-[12px] font-semibold uppercase tracking-widest px-4 py-1 rounded-full bg-white text-teal border border-teal/20 mb-4">
           Take the First Step
         </span>

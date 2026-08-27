@@ -1,7 +1,9 @@
 import React from "react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import ContactForms from "./ContactForms";
+import therapyBg from "@/assets/hero/creative-activity-hero.png";
 import { SITE, HOURS, FORMS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -114,7 +116,19 @@ export default function ContactPage() {
     <>
       {/* ── PAGE HERO ──────────────────────────────────────────── */}
       <div className="page-hero contact-page-hero">
-        <div className="site-container">
+        <div className="contact-page-background" aria-hidden="true">
+          <Image
+            src={therapyBg}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="contact-page-bg-image"
+          />
+          <div className="contact-page-overlay" />
+        </div>
+
+        <div className="site-container contact-page-hero-inner">
           <nav className="flex items-center gap-2 text-[13px] text-muted mb-4 justify-center">
             <Link href="/" className="hover:text-teal transition-colors">
               Home
@@ -131,7 +145,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <section className="pb-20">
+      <section className="pb-20 contact-page-main">
         <div className="site-container">
           {/* ── QUICK CONTACT CARDS ──────────────────────────────── */}
           {/*
