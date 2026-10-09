@@ -1,378 +1,7 @@
-// "use client";
-
-// import { useState, useEffect, useCallback, useRef } from "react";
-// import { TESTIMONIALS, FORMS } from "@/lib/constants";
-
-// // ─── CONFIG ───────────────────────────────────────────────────────────────────
-// const AUTO_ROTATE_MS = 5000; // ms between auto-slides
-
-// // ─── HOOK: responsive cards per page ─────────────────────────────────────────
-// function useCardsPerPage() {
-//   const [perPage, setPerPage] = useState(3);
-
-//   useEffect(() => {
-//     const update = () => {
-//       const w = window.innerWidth;
-//       if (w < 640)       setPerPage(1);
-//       else if (w < 1024) setPerPage(2);
-//       else               setPerPage(3);
-//     };
-//     update();
-//     window.addEventListener("resize", update);
-//     return () => window.removeEventListener("resize", update);
-//   }, []);
-
-//   return perPage;
-// }
-
-// // ─── TESTIMONIAL CARD ─────────────────────────────────────────────────────────
-// function TestiCard({
-//   initial, name, role, quote, color,
-// }: {
-//   initial: string; name: string; role: string; quote: string; color: string;
-// }) {
-//   return (
-//     <div className="flex flex-col bg-white rounded-[16px] border border-[#E2E8F0] shadow-sm p-7 relative h-full min-h-[260px]">
-//       {/* Decorative quote */}
-//       <div
-//         className="absolute top-4 right-5 font-serif text-[52px] leading-none select-none pointer-events-none"
-//         style={{ color: "#E8F6F6" }}
-//         aria-hidden="true"
-//       >
-//         &ldquo;
-//       </div>
-
-//       {/* Stars */}
-//       <div className="text-[#FBBF24] text-[15px] tracking-[3px] mb-4 select-none">
-//         ★★★★★
-//       </div>
-
-//       {/* Quote text */}
-//       <p className="text-[14px] leading-[1.8] italic text-[#4A5568] flex-1 mb-6 pr-2">
-//         {quote}
-//       </p>
-
-//       {/* Author */}
-//       <div className="flex items-center gap-3 mt-auto">
-//         <div
-//           className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[15px] text-white flex-shrink-0 select-none"
-//           style={{ background: color }}
-//         >
-//           {initial}
-//         </div>
-//         <div>
-//           <strong className="block text-[14px] text-[#2C3E50] font-semibold leading-tight">
-//             {name}
-//           </strong>
-//           <span className="text-[12px] text-[#718096]">{role}</span>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
-// export default function Testimonials() {
-//   const perPage      = useCardsPerPage();
-//   const total        = TESTIMONIALS.length;
-//   const totalPages   = Math.ceil(total / perPage);
-
-//   const [currentPage, setCurrentPage]   = useState(0);
-//   const [direction,   setDirection]     = useState<"next" | "prev">("next");
-//   const [isAnimating, setIsAnimating]   = useState(false);
-//   const [isPaused,    setIsPaused]      = useState(false);
-//   const [progressKey, setProgressKey]   = useState(0); // restarts CSS animation
-//   const autoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-//   // Clamp page when screen resizes and perPage changes
-//   useEffect(() => {
-//     setCurrentPage((p) => (totalPages > 0 ? Math.min(p, totalPages - 1) : 0));
-//   }, [totalPages]);
-
-//   // ── Navigate to a specific page ─────────────────────────────────────────────
-//   const goToPage = useCallback(
-//     (target: number, dir: "next" | "prev") => {
-//       if (isAnimating || target === currentPage) return;
-//       setDirection(dir);
-//       setIsAnimating(true);
-//       setProgressKey((k) => k + 1);
-
-//       setTimeout(() => {
-//         setCurrentPage(target);
-//         setIsAnimating(false);
-//       }, 400);
-//     },
-//     [isAnimating, currentPage]
-//   );
-
-//   const goNext = useCallback(() => {
-//     const next = (currentPage + 1) % totalPages;
-//     goToPage(next, "next");
-//   }, [currentPage, totalPages, goToPage]);
-
-//   const goPrev = useCallback(() => {
-//     const prev = (currentPage - 1 + totalPages) % totalPages;
-//     goToPage(prev, "prev");
-//   }, [currentPage, totalPages, goToPage]);
-
-//   // ── Auto-rotate ─────────────────────────────────────────────────────────────
-//   useEffect(() => {
-//     if (isPaused || totalPages <= 1) return;
-//     autoTimer.current = setTimeout(goNext, AUTO_ROTATE_MS);
-//     return () => {
-//       if (autoTimer.current) clearTimeout(autoTimer.current);
-//     };
-//   }, [currentPage, isPaused, totalPages, goNext]);
-
-//   // ── Visible cards for current page ─────────────────────────────────────────
-//   const startIdx     = currentPage * perPage;
-//   const visibleSlice = TESTIMONIALS.slice(startIdx, startIdx + perPage);
-
-//   // Pad last page if incomplete (keeps grid stable)
-//   const paddedSlice = [...visibleSlice];
-//   while (paddedSlice.length < perPage) {
-//     paddedSlice.push(null as unknown as (typeof TESTIMONIALS)[0]);
-//   }
-
-//   // ── Slide animation classes ─────────────────────────────────────────────────
-//   const slideOut = isAnimating
-//     ? direction === "next"
-//       ? "opacity-0 -translate-x-10 scale-[0.97]"
-//       : "opacity-0 translate-x-10 scale-[0.97]"
-//     : "opacity-100 translate-x-0 scale-100";
-
-//   return (
-//     <section className="section-pad bg-off overflow-hidden">
-//       <div className="site-container">
-
-//         {/* ── HEADER ────────────────────────────────────────── */}
-//         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
-//           <div className="max-w-[580px]">
-//             <span
-//               className="inline-block text-xs font-semibold tracking-widest uppercase
-//                          px-4 py-1 rounded-full mb-4"
-//               style={{ background: "#E8F6F6", color: "#0E7C7B" }}
-//             >
-//               Parent Stories
-//             </span>
-//             <h2
-//               className="font-serif mb-3"
-//               style={{ fontSize: "clamp(28px,4vw,38px)", color: "#2C3E50", lineHeight: 1.2 }}
-//             >
-//               What Families Are Saying
-//             </h2>
-//             <p style={{ fontSize: "17px", color: "#718096" }}>
-//               The most meaningful feedback comes from parents who walked in with uncertainty
-//               — and left with hope and progress.
-//             </p>
-//           </div>
-
-//           {/* Desktop prev / next + counter */}
-//           {totalPages > 1 && (
-//             <div className="hidden sm:flex items-center gap-3 flex-shrink-0 pb-1">
-//               <span className="text-[13px] font-medium tabular-nums" style={{ color: "#718096" }}>
-//                 {currentPage + 1} / {totalPages}
-//               </span>
-
-//               <button
-//                 onClick={() => { setIsPaused(true); goPrev(); }}
-//                 disabled={isAnimating}
-//                 aria-label="Previous testimonials"
-//                 className="w-10 h-10 rounded-full border-2 flex items-center justify-center
-//                            text-[18px] font-bold transition-all duration-200
-//                            disabled:opacity-40 disabled:cursor-not-allowed
-//                            hover:scale-105 active:scale-95"
-//                 style={{
-//                   borderColor: "#E2E8F0",
-//                   background: "#FFFFFF",
-//                   color: "#2C3E50",
-//                 }}
-//                 onMouseEnter={(e) => {
-//                   (e.currentTarget as HTMLButtonElement).style.borderColor = "#0E7C7B";
-//                   (e.currentTarget as HTMLButtonElement).style.color = "#0E7C7B";
-//                   (e.currentTarget as HTMLButtonElement).style.background = "#E8F6F6";
-//                 }}
-//                 onMouseLeave={(e) => {
-//                   (e.currentTarget as HTMLButtonElement).style.borderColor = "#E2E8F0";
-//                   (e.currentTarget as HTMLButtonElement).style.color = "#2C3E50";
-//                   (e.currentTarget as HTMLButtonElement).style.background = "#FFFFFF";
-//                 }}
-//               >
-//                 ←
-//               </button>
-
-//               <button
-//                 onClick={() => { setIsPaused(true); goNext(); }}
-//                 disabled={isAnimating}
-//                 aria-label="Next testimonials"
-//                 className="w-10 h-10 rounded-full border-2 flex items-center justify-center
-//                            text-[18px] font-bold transition-all duration-200
-//                            disabled:opacity-40 disabled:cursor-not-allowed
-//                            hover:scale-105 active:scale-95"
-//                 style={{
-//                   borderColor: "#0E7C7B",
-//                   background: "#0E7C7B",
-//                   color: "#FFFFFF",
-//                 }}
-//                 onMouseEnter={(e) => {
-//                   (e.currentTarget as HTMLButtonElement).style.background = "#14A8A7";
-//                   (e.currentTarget as HTMLButtonElement).style.borderColor = "#14A8A7";
-//                 }}
-//                 onMouseLeave={(e) => {
-//                   (e.currentTarget as HTMLButtonElement).style.background = "#0E7C7B";
-//                   (e.currentTarget as HTMLButtonElement).style.borderColor = "#0E7C7B";
-//                 }}
-//               >
-//                 →
-//               </button>
-//             </div>
-//           )}
-//         </div>
-
-//         {/* ── CARDS GRID ─────────────────────────────────────── */}
-//         <div
-//           className={`grid gap-5 transition-all duration-[400ms] ease-in-out ${slideOut}`}
-//           style={{
-//             gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))`,
-//           }}
-//           onMouseEnter={() => setIsPaused(true)}
-//           onMouseLeave={() => setIsPaused(false)}
-//         >
-//           {paddedSlice.map((t, i) =>
-//             t ? (
-//               <TestiCard key={`${currentPage}-${i}`} {...t} />
-//             ) : (
-//               // Empty placeholder to keep grid stable on last page
-//               <div key={`empty-${i}`} className="invisible" aria-hidden="true" />
-//             )
-//           )}
-//         </div>
-
-//         {/* ── DOTS + MOBILE BUTTONS ──────────────────────────── */}
-//         {totalPages > 1 && (
-//           <div className="flex items-center justify-center gap-4 mt-8">
-//             {/* Mobile Prev */}
-//             <button
-//               onClick={() => { setIsPaused(true); goPrev(); }}
-//               disabled={isAnimating}
-//               aria-label="Previous"
-//               className="sm:hidden w-9 h-9 rounded-full border-2 border-[#E2E8F0] bg-white
-//                          flex items-center justify-center text-sm text-[#2C3E50]
-//                          hover:border-[#0E7C7B] hover:text-[#0E7C7B]
-//                          transition-all duration-200 disabled:opacity-40 select-none"
-//             >
-//               ←
-//             </button>
-
-//             {/* Dot indicators */}
-//             <div className="flex items-center gap-2">
-//               {Array.from({ length: totalPages }).map((_, i) => (
-//                 <button
-//                   key={i}
-//                   onClick={() => { setIsPaused(true); goToPage(i, i > currentPage ? "next" : "prev"); }}
-//                   aria-label={`Go to page ${i + 1}`}
-//                   className="rounded-full transition-all duration-300"
-//                   style={{
-//                     width:  i === currentPage ? "24px" : "10px",
-//                     height: "10px",
-//                     background: i === currentPage ? "#0E7C7B" : "#E2E8F0",
-//                   }}
-//                 />
-//               ))}
-//             </div>
-
-//             {/* Mobile Next */}
-//             <button
-//               onClick={() => { setIsPaused(true); goNext(); }}
-//               disabled={isAnimating}
-//               aria-label="Next"
-//               className="sm:hidden w-9 h-9 rounded-full border-2 border-[#0E7C7B] bg-[#0E7C7B]
-//                          flex items-center justify-center text-sm text-white
-//                          hover:bg-[#14A8A7] hover:border-[#14A8A7]
-//                          transition-all duration-200 disabled:opacity-40 select-none"
-//             >
-//               →
-//             </button>
-//           </div>
-//         )}
-
-//         {/* ── PROGRESS BAR (auto-rotate indicator) ──────────── */}
-//         {totalPages > 1 && !isPaused && (
-//           <div
-//             className="mt-5 mx-auto rounded-full overflow-hidden"
-//             style={{ maxWidth: "200px", height: "3px", background: "#E2E8F0" }}
-//           >
-//             <div
-//               key={`prog-${progressKey}-${currentPage}`}
-//               className="h-full rounded-full"
-//               style={{
-//                 background: "#0E7C7B",
-//                 animation: `testiProgress ${AUTO_ROTATE_MS}ms linear forwards`,
-//               }}
-//             />
-//           </div>
-//         )}
-
-//         {/* Resume auto label */}
-//         {totalPages > 1 && isPaused && (
-//           <div className="flex justify-center mt-5">
-//             <button
-//               onClick={() => setIsPaused(false)}
-//               className="text-[12px] text-[#718096] hover:text-[#0E7C7B] transition-colors
-//                          flex items-center gap-1.5"
-//             >
-//               <span>▶</span> Resume auto-rotate
-//             </button>
-//           </div>
-//         )}
-
-//         {/* ── FEEDBACK BANNER ───────────────────────────────── */}
-//         <div
-//           className="mt-10 rounded-[12px] border border-[#E2E8F0] p-6
-//                      flex flex-col sm:flex-row items-start sm:items-center
-//                      justify-between gap-5 flex-wrap bg-white"
-//         >
-//           <div>
-//             <h4
-//               className="font-serif mb-1"
-//               style={{ fontSize: "17px", color: "#2C3E50" }}
-//             >
-//               Have you visited Prarambham?
-//             </h4>
-//             <p style={{ fontSize: "14px", color: "#718096" }}>
-//               Share your experience to help other parents find the right care for their child.
-//             </p>
-//           </div>
-//           <a
-//             href={FORMS.feedback}
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             className="whitespace-nowrap flex-shrink-0 inline-flex items-center gap-2
-//                        px-5 py-3 rounded-lg border-2 font-semibold text-[14px]
-//                        transition-all duration-200 hover:bg-[#E8F6F6]"
-//             style={{ borderColor: "#0E7C7B", color: "#0E7C7B" }}
-//           >
-//             ✍️ Submit Your Feedback
-//           </a>
-//         </div>
-
-//       </div>
-
-//       {/* Scoped keyframe — no globals.css edit needed */}
-//       <style>{`
-//         @keyframes testiProgress {
-//           from { width: 0%; }
-//           to   { width: 100%; }
-//         }
-//       `}</style>
-//     </section>
-//   );
-// }
-
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { TESTIMONIALS, FORMS } from "@/lib/constants";
+import { TESTIMONIALS } from "@/lib/constants";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const CARDS_DESKTOP = 3;
@@ -385,7 +14,7 @@ const AUTO_ROTATE_MS = 5000;
 const GOOGLE_REVIEW_LINK =
   "https://www.google.com/search?sca_esv=02a5ba911fc3640b&sxsrf=ANbL-n4CH8bO7AsZIDYVu65w2f65FSjUfQ:1778049916911&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOdHbgkLdaLRDZaZ_i5xIZOrdZrPpBqwPnJXPbU5WKhCsLdhOvXADkykyl1B4uxrbUYgXDbTbXA-xI0wi9BN_ON3WFT11ekZtTxJ81EdxbZ0HWJ7lPB7rYSPsTv8pt8jWwIgB8_U%3D&q=Prarambh+Child+Rehabilitation+center+Reviews&sa=X&ved=2ahUKEwje18KNiKSUAxVdGLkGHfW7Kh4Q0bkNegQIMRAF&biw=1536&bih=703&dpr=1.25#lrd=0x39418d29eeaefc7f:0x25a0f2d88d7d54fd,3,,,,";
 
-// ─── RESPONSIVE HOOK ─────────────────────────────────────────────────────────
+// ─── RESPONSIVE HOOK ────────────────────────────────────────────────────────
 function useCardsPerPage() {
   const [perPage, setPerPage] = useState(CARDS_DESKTOP);
   useEffect(() => {
@@ -402,7 +31,7 @@ function useCardsPerPage() {
   return perPage;
 }
 
-// ─── TESTIMONIAL CARD ─────────────────────────────────────────────────────────
+// ─── TESTIMONIAL CARD ───────────────────────────────────────────────────────
 function TestiCard({
   initial,
   name,
@@ -472,17 +101,50 @@ function TestiCard({
   );
 }
 
-// ─── FEEDBACK MODAL ───────────────────────────────────────────────────────────
+// ─── FEEDBACK MODAL ───────────────────────────────────────────────────────
 function FeedbackModal({ onClose }: { onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [name, setName] = useState("");
   const [review, setReview] = useState("");
   const [role, setRole] = useState("Parent");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In future: POST to your backend/DB here
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/form-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "Feedback",
+          name: name.trim(),
+          feedback: review.trim(),
+          feedbackRole: role,
+          email: "",
+          website: "",
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) {
+        throw new Error(
+          result.message ||
+            "We could not save your feedback. Please try again.",
+        );
+      }
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "We could not save your feedback. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Close on Escape key
@@ -523,7 +185,7 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
             <>
               {/* Header */}
               <div className="mb-6">
-                <div className="text-3xl mb-3">✍️</div>
+                <div className="text-3xl mb-3">⭐</div>
                 <h3
                   className="font-serif mb-1"
                   style={{ fontSize: "22px", color: "#2C3E50" }}
@@ -627,12 +289,23 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
                   />
                 </div>
 
+                {submitError && (
+                  <p role="alert" className="text-sm text-red-700">
+                    {submitError}
+                  </p>
+                )}
+
                 <button
                   type="submit"
+                  disabled={submitting}
                   className="w-full py-3.5 rounded-lg font-semibold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-px"
-                  style={{ fontSize: "15px", background: "#0E7C7B" }}
+                  style={{
+                    fontSize: "15px",
+                    background: "#0E7C7B",
+                    opacity: submitting ? 0.7 : 1,
+                  }}
                 >
-                  Submit Feedback
+                  {submitting ? "Submitting..." : "Submit Feedback"}
                 </button>
 
                 <p
@@ -648,7 +321,7 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
               </form>
             </>
           ) : (
-            /* ── SUCCESS STATE ─────────────────────────────── */
+            /* ─── SUCCESS STATE ───────────────────────────────────────────────────── */
             <div className="text-center py-4">
               {/* Checkmark animation */}
               <div
@@ -658,7 +331,7 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
                   animation: "popIn .4s cubic-bezier(.4,0,.2,1)",
                 }}
               >
-                ✅
+                ✓
               </div>
 
               <h3
@@ -671,8 +344,7 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
                 className="mb-8"
                 style={{ fontSize: "15px", color: "#718096", lineHeight: 1.7 }}
               >
-                Your feedback has been recorded. It helps other parents in
-                Jodhpur find the right care for their child. 💛
+                Your submission recorded. Our team will contact you shortly!
               </p>
 
               {/* Divider */}
@@ -695,7 +367,7 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
                 className="rounded-[14px] p-5 mb-4"
                 style={{ background: "#FFF8F0", border: "1.5px solid #FCD34D" }}
               >
-                <div className="text-2xl mb-2">⭐</div>
+                <div className="text-2xl mb-2">★</div>
                 <p
                   className="font-semibold mb-1"
                   style={{ fontSize: "15px", color: "#92400E" }}
@@ -757,7 +429,7 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-// ─── MAIN TESTIMONIALS SECTION ────────────────────────────────────────────────
+// ─── MAIN TESTIMONIALS SECTION ─────────────────────────────────────────────
 export default function Testimonials() {
   const perPage = useCardsPerPage();
   const total = TESTIMONIALS.length;
@@ -824,7 +496,7 @@ export default function Testimonials() {
     <>
       <section className="section-pad bg-off overflow-hidden">
         <div className="site-container">
-          {/* ── HEADER ─────────────────────────────────────── */}
+          {/* ─── HEADER ───────────────────────────────────────────────────────── */}
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
             <div style={{ maxWidth: "580px" }}>
               <span
@@ -920,7 +592,7 @@ export default function Testimonials() {
             )}
           </div>
 
-          {/* ── CARDS ──────────────────────────────────────── */}
+          {/* ─── CARDS ─────────────────────────────────────────────────────────── */}
           <div
             className={`grid gap-5 transition-all duration-[320ms] ease-in-out ${slideClass}`}
             style={{
@@ -942,7 +614,7 @@ export default function Testimonials() {
             )}
           </div>
 
-          {/* ── DOTS + MOBILE CONTROLS ──────────────────────── */}
+          {/* ─── DOTS + MOBILE CONTROLS ───────────────────────────────────────── */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 mt-8">
               <button
@@ -1000,7 +672,7 @@ export default function Testimonials() {
             </div>
           )}
 
-          {/* ── PROGRESS BAR ───────────────────────────────── */}
+          {/* ─── PROGRESS BAR ───────────────────────────────────────────────────── */}
           {totalPages > 1 && !isPaused && (
             <div
               className="mt-5 mx-auto rounded-full overflow-hidden"
@@ -1021,7 +693,7 @@ export default function Testimonials() {
             </div>
           )}
 
-          {/* ── BOTTOM BANNER — Feedback + Google Review ───── */}
+          {/* ─── BOTTOM BANNER — Feedback + Google Review ───────────────────── */}
           <div
             className="mt-10 rounded-[16px] border p-6"
             style={{ background: "#fff", borderColor: "#E2E8F0" }}
@@ -1052,7 +724,7 @@ export default function Testimonials() {
                     color: "#0E7C7B",
                   }}
                 >
-                  ✍️ Submit Feedback
+                  ★ Submit Feedback
                 </button>
 
                 {/* Direct Google Review button */}
@@ -1086,7 +758,7 @@ export default function Testimonials() {
         `}</style>
       </section>
 
-      {/* ── MODAL ────────────────────────────────────────────── */}
+      {/* ─── MODAL ───────────────────────────────────────────────────────────── */}
       {showModal && <FeedbackModal onClose={() => setShowModal(false)} />}
     </>
   );

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE } from "@/lib/constants";
+import { EMAIL_COMPOSE_URL, SITE } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -111,7 +111,9 @@ export default function CareersPage() {
             <div className="careers-actions">
               <a
                 className="btn-primary"
-                href={`mailto:${SITE.email}?subject=Career%20application%20at%20Parambh`}
+                href={`${EMAIL_COMPOSE_URL}&su=${encodeURIComponent("Career application at Parambh")}`}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Email your CV
               </a>

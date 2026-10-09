@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import ContactForms from "./ContactForms";
-import therapyBg from "@/assets/hero/creative-activity-hero.png";
-import { SITE, HOURS, FORMS } from "@/lib/constants";
+import therapyBg from "@/assets/services/creative-activity.png";
+import { SITE, HOURS, FORMS, EMAIL_COMPOSE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Contact & Book Appointment",
@@ -34,8 +34,8 @@ const QUICK_CARDS = [
     label: "Email",
     // Break long email so it wraps cleanly inside the card
     value: SITE.email,
-    href: `mailto:${SITE.email}`,
-    external: false,
+    href: EMAIL_COMPOSE_URL,
+    external: true,
   },
   {
     icon: "🕐",
@@ -207,8 +207,8 @@ export default function ContactPage() {
                     icon: "✉️",
                     label: "Email",
                     content: SITE.email,
-                    href: `mailto:${SITE.email}`,
-                    ext: false,
+                    href: EMAIL_COMPOSE_URL,
+                    ext: true,
                   },
                 ].map((item) => (
                   <div

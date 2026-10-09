@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { SERVICE_PAGES, getServiceBySlug } from "@/lib/site-content";
 import { notFound } from "next/navigation";
@@ -47,27 +46,12 @@ export default async function ServiceDetailPage({
       <main className="service-detail-page">
         <div className="site-container">
           <section className="service-detail-intro">
-            <div>
+            <div className="service-detail-copy">
               <h2>{service.headline}</h2>
               <p>{service.fullDescription}</p>
               <Link href="/contact" className="btn-primary">
                 {service.actionLabel}
               </Link>
-            </div>
-            <div className="service-detail-image-grid">
-              {service.images.map((image, index) => (
-                <div
-                  className={`service-detail-image image-${index + 1}`}
-                  key={index}
-                >
-                  <Image
-                    src={image}
-                    alt={`${service.title} at Parambh Rehab Center`}
-                    fill
-                    sizes="(max-width: 800px) 50vw, 25vw"
-                  />
-                </div>
-              ))}
             </div>
           </section>
           <section className="service-detail-columns">

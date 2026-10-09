@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { THERAPISTS } from "@/lib/constants";
-import guidedActivity from "@/assets/hero/guided-activity-hero.png";
+import { getTherapistImage, THERAPISTS } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Our Founder",
@@ -33,10 +32,15 @@ export default function FounderPage() {
           <section className="founder-grid">
             <div className="founder-portrait">
               <Image
-                src={guidedActivity}
-                alt="A child participating in a guided therapy activity"
-                fill
-                sizes="(max-width: 800px) 100vw, 42vw"
+                src={getTherapistImage(founder)}
+                alt={founder.name}
+                width={327}
+                height={321}
+                quality={90}
+                unoptimized
+                priority
+                sizes="(max-width: 800px) 100vw, 327px"
+                className="h-full w-full object-cover object-center"
               />
             </div>
             <div>

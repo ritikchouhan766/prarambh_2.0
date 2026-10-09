@@ -9,8 +9,7 @@ import {
   type CSSProperties,
 } from "react";
 import Link from "next/link";
-import { THERAPISTS, type Therapist } from "@/lib/constants";
-import therapistPhoto from "@/assets/therapist/dr_lakshita.jpeg";
+import { THERAPISTS, getTherapistImage, type Therapist } from "@/lib/constants";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const AUTO_ROTATE_MS = 6000;
@@ -36,12 +35,14 @@ function ProfileCard({
         className="therapist-photo relative w-[250px] h-[250px] rounded-full mx-auto mb-6 overflow-hidden
                    border-[5px] border-white shadow-lg"
       >
-        {therapist.name === "Lakshita Chouhan" ? (
+        {therapist.name === "Lakshita Chouhan" ||
+        therapist.name === "Bharat Kumar" ? (
           <Image
-            src={therapistPhoto}
+            src={getTherapistImage(therapist)}
             alt={`${therapist.name}, ${therapist.designation}`}
             fill
             sizes="250px"
+            quality={90}
             className="object-cover object-center"
             priority
           />
@@ -105,10 +106,8 @@ function ProfileCard({
 
       {preview ? (
         <Link
-          href="/therapist"
-          className="block w-full text-center px-5 py-3 rounded-lg border-2
-                     font-semibold transition-all duration-200 hover:opacity-80"
-          style={{ fontSize: "14px", borderColor: "#0E7C7B", color: "#0E7C7B" }}
+          href={`/therapist/${therapist.slug}`}
+          className="btn-outline block w-full text-center"
         >
           View Full Profile →
         </Link>
@@ -128,14 +127,14 @@ function ProfileCard({
             Contact Directly
           </p>
           <a
-            href="tel:+916377216003"
+            href="tel:+917023878048"
             className="flex items-center gap-2 font-semibold mb-2"
             style={{ fontSize: "14px", color: "#0E7C7B" }}
           >
-            📞 +91 6377216003
+            📞 +91 70238 78048
           </a>
           <a
-            href="https://wa.me/916377216003"
+            href="https://wa.me/917023878048"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 font-semibold"
@@ -233,7 +232,7 @@ function InfoPanel({
           📅 Book with {firstName}
         </Link>
         <a
-          href="https://wa.me/916377216003"
+          href="https://wa.me/917023878048"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg
@@ -623,13 +622,7 @@ export default function TherapistSection() {
         <div className="mt-10 text-center">
           <Link
             href="/therapist"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2
-                       font-semibold transition-all duration-200 hover:bg-teal-pale"
-            style={{
-              fontSize: "14px",
-              borderColor: "#0E7C7B",
-              color: "#0E7C7B",
-            }}
+            className="btn-outline inline-flex items-center gap-2"
           >
             View Full Team Profiles →
           </Link>

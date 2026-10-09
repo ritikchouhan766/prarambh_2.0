@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/branding/logo_footer.png";
-import { SITE, NAV_LINKS, HOURS } from "@/lib/constants";
+import { SITE, NAV_LINKS, HOURS, EMAIL_COMPOSE_URL } from "@/lib/constants";
 
 const socialLinks = [
   {
@@ -31,7 +31,7 @@ const socialLinks = [
     ),
   },
   {
-    href: `mailto:${SITE.email}`,
+    href: EMAIL_COMPOSE_URL,
     label: "Email",
     icon: (
       <svg
@@ -120,7 +120,13 @@ export default function Footer() {
             <h2>Visit & contact</h2>
             <address>
               <span>{SITE.address}</span>
-              <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+              <a
+                href={EMAIL_COMPOSE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {SITE.email}
+              </a>
               <a
                 href={`https://wa.me/${SITE.whatsapp}`}
                 target="_blank"

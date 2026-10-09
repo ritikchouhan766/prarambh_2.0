@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { THERAPISTS } from "@/lib/constants";
-import therapistPhoto from "@/assets/therapist/dr_lakshita.jpeg";
+import { THERAPISTS, getTherapistImage } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Our Therapists",
@@ -46,7 +45,7 @@ export default function TherapistPage() {
               <div className="bg-teal-pale rounded-[20px] p-10 text-center lg:sticky lg:top-[90px]">
                 <div className="mx-auto mb-5 h-[250px] w-[250px] overflow-hidden rounded-full border-[5px] border-white shadow-lg">
                   <Image
-                    src={therapistPhoto}
+                    src={getTherapistImage(therapist)}
                     alt={therapist.name}
                     width={120}
                     height={120}
@@ -143,17 +142,15 @@ export default function TherapistPage() {
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/contact" className="btn-primary">
+                  <Link
+                    href={`/therapist/${therapist.slug}`}
+                    className="btn-primary"
+                  >
+                    View Profile
+                  </Link>
+                  <Link href="/contact" className="btn-wa">
                     📅 Book with {therapist.name.split(" ")[0]}
                   </Link>
-                  <a
-                    href="https://wa.me/916377216003"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-wa"
-                  >
-                    💬 WhatsApp
-                  </a>
                 </div>
               </div>
             </div>

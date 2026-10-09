@@ -2,26 +2,70 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FACILITY_IMAGES } from "@/lib/site-content";
 
 export default function GalleryPage() {
-  const [selected, setSelected] = useState<{
-    src: string;
-    label: string;
-    index: number;
-  } | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const selected = currentIndex === null ? null : FACILITY_IMAGES[currentIndex];
+
+  const openImage = (image: string, label: string, index: number) => {
+    if (!image.trim()) return;
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setIsClosing(false);
+    setCurrentIndex(index);
+  };
+
+  const closeLightbox = useCallback(() => {
+    setIsClosing(true);
+    closeTimer.current = setTimeout(() => {
+      setCurrentIndex(null);
+      setIsClosing(false);
+    }, 180);
+  }, []);
+
+  const showPrevious = useCallback(() => {
+    setCurrentIndex((index) =>
+      index === null
+        ? null
+        : (index - 1 + FACILITY_IMAGES.length) % FACILITY_IMAGES.length,
+    );
+  }, []);
+
+  const showNext = useCallback(() => {
+    setCurrentIndex((index) =>
+      index === null ? null : (index + 1) % FACILITY_IMAGES.length,
+    );
+  }, []);
 
   useEffect(() => {
     if (!selected) return;
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelected(null);
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showPrevious();
+      if (event.key === "ArrowRight") showNext();
     };
 
     document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [selected]);
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selected, closeLightbox, showNext, showPrevious]);
+
+  useEffect(
+    () => () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    },
+    [],
+  );
 
   return (
     <>
@@ -51,7 +95,7 @@ export default function GalleryPage() {
               <button
                 key={label + index}
                 type="button"
-                onClick={() => setSelected({ src: image.src, label, index })}
+                onClick={() => openImage(image, label, index)}
                 className="group relative aspect-[4/3] overflow-hidden rounded-[22px] border border-[#dbe9ee] bg-white text-left shadow-[0_18px_38px_rgba(24,53,68,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_38px_rgba(24,53,68,0.09)]"
                 aria-label={`Open ${label} gallery image`}
               >
@@ -74,51 +118,102 @@ export default function GalleryPage() {
 
       {selected ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0d1e2b]/75 p-3 backdrop-blur-sm sm:p-4"
-          onClick={() => setSelected(null)}
+          className={`gallery-lightbox ${isClosing ? "gallery-lightbox-closing" : ""}`}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closeLightbox();
+          }}
           role="dialog"
           aria-modal="true"
           aria-label={selected.label}
         >
           <div
-            className="relative w-full max-w-5xl overflow-hidden rounded-[24px] border border-white/20 bg-white shadow-[0_30px_80px_rgba(8,19,28,0.45)]"
-            onClick={(event) => event.stopPropagation()}
+            className="gallery-lightbox-content"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) closeLightbox();
+            }}
+            onTouchStart={(event) => {
+              touchStartX.current = event.touches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(event) => {
+              const startX = touchStartX.current;
+              const endX = event.changedTouches[0]?.clientX;
+              touchStartX.current = null;
+              if (startX === null || endX === undefined) return;
+              const difference = endX - startX;
+              if (Math.abs(difference) > 50) {
+                if (difference > 0) showPrevious();
+                else showNext();
+              }
+            }}
           >
-            <div className="relative h-20 w-full overflow-hidden border-b border-slate-200 bg-slate-100 sm:h-28">
-              <Image
-                src={selected.src}
-                alt=""
-                fill
-                sizes="100vw"
-                className="scale-105 object-cover opacity-60 blur-[2px]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-slate-900/10 to-white/60" />
-            </div>
-
             <button
               type="button"
-              onClick={() => setSelected(null)}
-              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-lg text-slate shadow-md transition hover:bg-white"
+              onClick={closeLightbox}
+              className="absolute right-0 top-0 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-black/45 text-3xl text-white transition hover:bg-black/70"
               aria-label="Close gallery image"
             >
               ×
             </button>
 
-            <div className="relative bg-white px-3 pb-4 pt-2 sm:px-5 sm:pb-5">
-              <div className="relative mx-auto w-full max-w-[1000px] overflow-hidden rounded-[18px] bg-[#f4f9fb] ring-1 ring-slate-200">
-                <div className="relative aspect-[16/10] max-h-[70vh] min-h-[260px]">
+            <button
+              type="button"
+              onClick={showPrevious}
+              className="absolute left-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-2xl text-white transition hover:bg-black/75 sm:left-3 sm:h-14 sm:w-14"
+              aria-label="Previous gallery image"
+              title="Previous image"
+            >
+              ❮
+            </button>
+
+            <div className="gallery-lightbox-image">
+              <Image
+                src={selected.image}
+                alt={selected.label}
+                fill
+                sizes="100vw"
+                unoptimized
+                priority
+                className="object-contain"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={showNext}
+              className="absolute right-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-2xl text-white transition hover:bg-black/75 sm:right-3 sm:h-14 sm:w-14"
+              aria-label="Next gallery image"
+              title="Next image"
+            >
+              ❯
+            </button>
+
+            <p className="gallery-lightbox-caption">
+              {selected.label}{" "}
+              <span className="text-white/65">
+                ({currentIndex! + 1} / {FACILITY_IMAGES.length})
+              </span>
+            </p>
+
+            <div className="gallery-lightbox-thumbnails">
+              {FACILITY_IMAGES.map(({ image, label }, index) => (
+                <button
+                  key={`${label}-${index}`}
+                  type="button"
+                  onClick={() => setCurrentIndex(index)}
+                  className={`relative h-12 w-16 shrink-0 overflow-hidden rounded-md border-2 transition sm:h-14 sm:w-20 ${index === currentIndex ? "border-white opacity-100" : "border-white/35 opacity-60 hover:opacity-100"}`}
+                  aria-label={`Show ${label}`}
+                  aria-current={index === currentIndex ? "true" : undefined}
+                >
                   <Image
-                    src={selected.src}
-                    alt={selected.label}
+                    src={image}
+                    alt=""
                     fill
-                    sizes="100vw"
-                    className="object-contain p-2 sm:p-3"
+                    sizes="80px"
+                    unoptimized
+                    className="object-cover"
                   />
-                </div>
-              </div>
-              <div className="px-1 pt-4 text-center text-base font-semibold text-slate sm:text-lg">
-                {selected.label}
-              </div>
+                </button>
+              ))}
             </div>
           </div>
         </div>

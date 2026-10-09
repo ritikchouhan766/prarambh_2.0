@@ -2,7 +2,7 @@ import Image from "next/image";
 import { SITE } from "@/lib/constants";
 import { FORMS } from "@/lib/constants";
 import ContactForms from "@/app/contact/ContactForms";
-import therapyBg from "@/assets/hero/creative-activity-hero.png";
+import therapyBg from "@/assets/services/creative-activity.png";
 
 export default function CTA() {
   return (

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FACILITY_IMAGES } from "@/lib/site-content";
 
 export default function FacilityGallery() {
@@ -14,7 +15,7 @@ export default function FacilityGallery() {
           </p>
         </div>
         <div className="facility-grid">
-          {FACILITY_IMAGES.map(({ image, label }, index) => (
+          {FACILITY_IMAGES.slice(0, 5).map(({ image, label }, index) => (
             <figure
               className={`facility-tile facility-tile-${index + 1}`}
               key={label}
@@ -28,6 +29,14 @@ export default function FacilityGallery() {
               <figcaption>{label}</figcaption>
             </figure>
           ))}
+        </div>
+        <div className="facility-gallery-action">
+          <Link
+            href="/gallery"
+            className="btn-outline inline-flex items-center gap-2"
+          >
+            View full gallery <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </div>
     </section>

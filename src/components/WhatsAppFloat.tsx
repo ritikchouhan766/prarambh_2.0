@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SITE } from "@/lib/constants";
+import { SITE, EMAIL_COMPOSE_URL } from "@/lib/constants";
 
 const socialButtons = [
   {
@@ -15,7 +15,7 @@ const socialButtons = [
     ),
   },
   {
-    href: `mailto:${SITE.email}`,
+    href: EMAIL_COMPOSE_URL,
     label: "Email",
     bg: "linear-gradient(135deg, #0d8d90, #1d6783)",
     icon: (
